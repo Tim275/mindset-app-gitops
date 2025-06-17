@@ -21,6 +21,8 @@ spec:
       labels:
         app: mindset-app
         environment: '{{env}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
       source:
