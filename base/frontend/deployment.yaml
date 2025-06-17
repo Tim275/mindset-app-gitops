@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: frontend:latest # ⚠️ Wird von Kustomize zu frontend:dev überschrieben
+          image: ghcr.io/tim275/study-app-frontend:latest # ⚠️ Wird von Kustomize zu frontend:dev überschrieben
           ports:
             - containerPort: 22111  # Flask-App Port (aus Dockerfile EXPOSE)
           env:
