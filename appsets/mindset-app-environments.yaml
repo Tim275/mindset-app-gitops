@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: mindset-app-environments
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - env: dev
+        namespace: mindset-app
+        autoSync: "true"
+        replicas: "1"
+      - env: prod
+        namespace: mindset-app-prod
+        autoSync: "false"
+        replicas: "3"
+  template:
+    metadata:
+      name: 'mindset-app-{{env}}'
+      labels:
+        app: mindset-app
+        environment: '{{env}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Tim275/mindset-app-gitops
+        targetRevision: HEAD
+        path: '{{env}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
+        automated:
+          prune: '{{autoSync}}'
+          selfHeal: '{{autoSync}}'
