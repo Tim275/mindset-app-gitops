@@ -9,12 +9,10 @@ spec:
       elements:
       - env: dev
         namespace: mindset-app
-        autoSync: "true"
-        replicas: "1"
+        autoSync: true        # ✅ Boolean statt String
       - env: prod
         namespace: mindset-app-prod
-        autoSync: "false"
-        replicas: "3"
+        autoSync: false       # ✅ Boolean statt String
   template:
     metadata:
       name: 'mindset-app-{{env}}'
@@ -28,13 +26,15 @@ spec:
       source:
         repoURL: https://github.com/Tim275/mindset-app-gitops
         targetRevision: HEAD
-        path: 'apps/{{env}}'  # ✅ RICHTIG: apps/dev und apps/prod
+        path: 'apps/{{env}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
+        {{#autoSync}}
         automated:
-          prune: '{{autoSync}}'
-          selfHeal: '{{autoSync}}'
+          prune: true
+          selfHeal: true
+        {{/autoSync}}
