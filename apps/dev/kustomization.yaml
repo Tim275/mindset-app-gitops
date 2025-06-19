@@ -6,7 +6,7 @@ resources:
   - backend
   - frontend
 
-namespace: study-app
+namespace: mindset-app  # ✅ Changed from "study-app"
 namePrefix: dev-
 
 images:

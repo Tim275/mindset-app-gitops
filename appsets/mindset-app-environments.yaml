@@ -28,7 +28,7 @@ spec:
       source:
         repoURL: https://github.com/Tim275/mindset-app-gitops
         targetRevision: HEAD
-        path: '{{env}}'
+        path: 'apps/{{env}}'  # ✅ RICHTIG: apps/dev und apps/prod
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'

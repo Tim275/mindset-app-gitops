@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: study-app
+  namespace: mindset-app  # ✅ MUSS GEÄNDERT WERDEN von "study-app"
 spec:
   replicas: 1
   selector:
@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/tim275/study-app-frontend:latest      # ⚠️ Wird zu backend:dev überschrieben
+          image: ghcr.io/tim275/study-app-backend:latest
           ports:
-            - containerPort: 22112   # FastAPI Port (aus Dockerfile)
-          env:                       # Environment für Backend
+            - containerPort: 22112
+          env:
             - name: CSV_FILE_PATH
               value: "/app/data/sessions.csv"
           resources:
