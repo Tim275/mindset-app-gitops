@@ -1,30 +1,24 @@
-# kubernetes/manifests/base/backend/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: mindset-app  # ✅ MUSS GEÄNDERT WERDEN von "study-app"
+  labels:
+    app: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: backend
+      app: backend
   template:
     metadata:
       labels:
-        component: backend
+        app: backend
     spec:
       containers:
-        - name: backend
-          image: ghcr.io/tim275/study-app-backend:latest
-          ports:
-            - containerPort: 22112
-          env:
-            - name: CSV_FILE_PATH
-              value: "/app/data/sessions.csv"
-          resources:
-            limits:
-              memory: "512Mi"
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
+      - name: backend
+        image: ghcr.io/tim275/study-app-backend:latest  # ← Full image name!
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_URL
+          value: "sqlite:///data/sessions.db"

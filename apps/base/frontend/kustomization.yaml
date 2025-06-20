@@ -1,7 +1,8 @@
-# kubernetes/manifests/base/frontend/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
-resources:                     # Sammelt alle Frontend-Manifeste
+resources:
   - deployment.yaml
   - service.yaml
+images:
+  - name: ghcr.io/tim275/study-app-frontend    # ← Full image name in base!
+    newTag: latest

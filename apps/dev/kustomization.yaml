@@ -7,9 +7,7 @@ resources:
 namespace: mindset-app-dev
 namePrefix: dev-
 images:
-  - name: backend
-    newName: ghcr.io/tim275/study-app-backend
-    newTag: backend-v0.13.0
-  - name: frontend
-    newName: ghcr.io/tim275/study-app-frontend
+  - name: ghcr.io/tim275/study-app-backend # ← Full image name wie Mischa!
+    newTag: backend-v0.15.0
+  - name: ghcr.io/tim275/study-app-frontend # ← Full image name wie Mischa!
     newTag: frontend-v0.12.0
