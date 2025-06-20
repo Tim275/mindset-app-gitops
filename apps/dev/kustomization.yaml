@@ -4,10 +4,12 @@ resources:
   - namespace.yaml
   - backend
   - frontend
-namespace: mindset-app # ✅ Changed from "study-app"
+namespace: mindset-app-dev
 namePrefix: dev-
 images:
   - name: backend
-    newTag: dev
+    newName: ghcr.io/tim275/study-app-backend
+    newTag: backend-v0.13.0
   - name: frontend
-    newTag: dev
+    newName: ghcr.io/tim275/study-app-frontend
+    newTag: frontend-v0.12.0

@@ -4,10 +4,12 @@ resources:
   - namespace.yaml
   - backend
   - frontend
-namespace: mindset-app-prod # ✅ Fixed: production namespace
-namePrefix: prod- # ✅ Fixed: production prefix
+namespace: mindset-app-prod
+namePrefix: prod-
 images:
   - name: backend
-    newTag: latest # ✅ Fixed: production tag
+    newName: ghcr.io/tim275/study-app-backend
+    newTag: backend-v0.11.1
   - name: frontend
-    newTag: latest # ✅ Fixed: production tag
+    newName: ghcr.io/tim275/study-app-frontend
+    newTag: frontend-v0.12.0
