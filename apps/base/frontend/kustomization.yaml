@@ -3,6 +3,3 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - service.yaml
-images:
-  - name: ghcr.io/tim275/study-app-frontend    # ← Full image name in base!
-    newTag: latest

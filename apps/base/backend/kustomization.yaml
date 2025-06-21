@@ -1,8 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 resources:
-  - deployment.yaml
-  - service.yaml
-images:
-  - name: ghcr.io/tim275/study-app-backend     # ← Full image name in base!
-    newTag: latest
+  - backend    # ← Verweist auf Unterverzeichnis apps/base/backend/
+  - frontend   # ← Verweist auf Unterverzeichnis apps/base/frontend/

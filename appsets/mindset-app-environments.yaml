@@ -1,21 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: mindset-app-environments
-  namespace: argocd
+  name: mindset-app-environments           # Name des ApplicationSets
+  namespace: argocd                        # ArgoCD Namespace
 spec:
   generators:
   - list:
       elements:
-      - env: dev
-        namespace: mindset-app
-        autoSync: true        # ✅ Boolean statt String
-      - env: prod
-        namespace: mindset-app-prod
-        autoSync: false       # ✅ Boolean statt String
+      # --- DEV Environment ---
+      - env: dev                          # Environment-Name (entspricht apps/dev)
+        namespace: mindset-app            # Namespace für DEV (siehe apps/dev/namespace.yaml)
+        autoSync: true                    # DEV wird automatisch synchronisiert (Auto-Deploy)
+      # --- PROD Environment ---
+      - env: prod                         # Environment-Name (entspricht apps/prod)
+        namespace: mindset-app-prod       # Namespace für PROD (siehe apps/prod/namespace.yaml)
+        autoSync: false                   # PROD muss manuell synchronisiert werden (PR/Approval)
   template:
     metadata:
-      name: 'mindset-app-{{env}}'
+      name: 'mindset-app-{{env}}'         # App-Name: mindset-app-dev / mindset-app-prod
       labels:
         app: mindset-app
         environment: '{{env}}'
@@ -26,15 +28,15 @@ spec:
       source:
         repoURL: https://github.com/Tim275/mindset-app-gitops
         targetRevision: HEAD
-        path: 'apps/{{env}}'
+        path: 'apps/{{env}}'              # Zeigt auf apps/dev oder apps/prod
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{namespace}}'
+        namespace: '{{namespace}}'        # Ziel-Namespace (dev/prod)
       syncPolicy:
         syncOptions:
-        - CreateNamespace=true
+        - CreateNamespace=true            # Namespace wird automatisch erstellt
         {{#autoSync}}
-        automated:
+        automated:                        # Nur für DEV: Auto-Sync aktivieren
           prune: true
           selfHeal: true
-        {{/autoSync}}
+        {{/autoSync}}                     # Für PROD: Kein Auto-Sync (manuelle Freigabe)

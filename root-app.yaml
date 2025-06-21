@@ -1,18 +1,15 @@
+# /workspaces/devops-projekt/mindset-app-gitops/root-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: mindset-app-root
   namespace: argocd
-  labels:
-    app: mindset-app-bootstrap
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: https://github.com/Tim275/mindset-app-gitops
     targetRevision: HEAD
-    path: appsets
+    path: appsets  # ← Zeigt auf appsets/ Verzeichnis
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
@@ -20,5 +17,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
