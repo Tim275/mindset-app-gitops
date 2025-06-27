@@ -4,37 +4,38 @@ metadata:
   name: mindset-app-environments
   namespace: argocd
 spec:
+  goTemplate: true
   generators:
   - list:
       elements:
       - env: dev
         namespace: mindset-app
-        autoSync: true        # ✅ Boolean statt String
+        autoSync: "true"
       - env: prod
         namespace: mindset-app-prod
-        autoSync: false       # ✅ Boolean statt String
+        autoSync: "false"
   template:
     metadata:
-      name: 'mindset-app-{{env}}'
-      labels:
-        app: mindset-app
-        environment: '{{env}}'
+      name: 'mindset-app-{{.env}}'
       finalizers:
-        - resources-finalizer.argocd.argoproj.io
+      - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
       source:
         repoURL: https://github.com/Tim275/mindset-app-gitops
         targetRevision: HEAD
-        path: 'apps/{{env}}'
+        path: 'apps/{{.env}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{namespace}}'
+        namespace: '{{.namespace}}'
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
-        {{#autoSync}}
+  templatePatch: |
+    {{if eq .autoSync "true"}}
+    spec:
+      syncPolicy:
         automated:
           prune: true
           selfHeal: true
-        {{/autoSync}}
+    {{end}}
