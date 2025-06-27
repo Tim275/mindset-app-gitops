@@ -4,7 +4,7 @@ resources:
   - namespace.yaml
   - backend
   - frontend
-namespace: mindset-app-dev
+namespace: mindset-app        
 namePrefix: dev-
 images:
   - name: ghcr.io/tim275/study-app-backend 
