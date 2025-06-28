@@ -2,23 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  labels:
-    app: frontend
+  namespace: mindset-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      component: frontend
   template:
     metadata:
       labels:
-        app: frontend
+        component: frontend
     spec:
       containers:
-      - name: frontend
-        image: ghcr.io/tim275/study-app-frontend:latest  # ← Full image name!
-        ports:
-        - containerPort: 22111
-        env:
-        - name: API_URL
-          value: "http://backend-service:8000"
+        - name: frontend
+          image: ghcr.io/tim275/study-app-frontend:latest
+          ports:
+            - containerPort: 22111
+          env:
+            - name: API_URL
+              value: "http://backend:22112"
+          resources:
+            limits:
+              memory: "512Mi"
+            requests:
+              cpu: "100m"
+              memory: "128Mi"

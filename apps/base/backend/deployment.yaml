@@ -2,23 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  labels:
-    app: backend
+  namespace: mindset-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      component: backend
   template:
     metadata:
       labels:
-        app: backend
+        component: backend
     spec:
       containers:
-      - name: backend
-        image: ghcr.io/tim275/study-app-backend:latest  # ← Full image name!
-        ports:
-        - containerPort: 8000
-        env:
-        - name: DATABASE_URL
-          value: "sqlite:///data/sessions.db"
+        - name: backend
+          image: ghcr.io/tim275/study-app-backend:latest
+          ports:
+            - containerPort: 22112
+          resources:
+            limits:
+              memory: "512Mi"
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
